@@ -6,7 +6,7 @@ local lastrefreshtime = os.time()
 local reach = 20
 function refreshballs(force)
     if force == false then
-    if lastrefreshtime + 2 > os.time() then print("too early") return end
+    if lastrefreshtime + 2 > os.time() then return end
     end
         lastrefreshtime = os.time()
     table.clear(balls)
