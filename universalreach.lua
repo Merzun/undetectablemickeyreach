@@ -23,7 +23,7 @@ end
 
 refreshballs(true)
 
-UserInputService.InputBegan:Connect(function(i, gameProcessedEvent)
+UserInputService.InputEnded:Connect(function(i, gameProcessedEvent)
     if i.KeyCode == Enum.KeyCode.W or i.KeyCode == Enum.KeyCode.A or i.KeyCode == Enum.KeyCode.S or i.KeyCode == Enum.KeyCode.D or i.KeyCode == Enum.KeyCode.Space then
     return end
     if gameProcessedEvent == false then
