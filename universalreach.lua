@@ -11,9 +11,8 @@ function refreshballs(force)
         lastrefreshtime = os.time()
     table.clear(balls)
 for i,v in pairs(workspace:GetDescendants()) do
-    local firstletter = string.sub(v.Name, 1, 1)
+        local firstletter = string.sub(v.Name, 1, 1)
     -- IF THE SCRIPT IS NOT RECOGNISING A BALL, ADD THEIR LEAGUE ABBREVIATION ONTO THIS.
-    
 if v.Name == "TPS" or v.Name == "ESA" or v.Name == "MRS" or v.Name == "PRS" or v.Name == "MPS" or v.Name == "VFA" or firstletter == "{" then
     task.wait()
 table.insert(balls,v)
