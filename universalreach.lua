@@ -3,8 +3,10 @@ local CoreGui = game:GetService("StarterGui")
 local player = game:GetService("Players").LocalPlayer
 local balls = {}
 local lastrefreshtime = os.time()
+local currentleg = true
 local touchint = nil
-local reach = 20
+local Ltouchint
+local reach = 15
 function refreshballs(force)
     if force == false then
     if lastrefreshtime + 1.5 > os.time() then return end
@@ -27,6 +29,13 @@ UserInputService.InputBegan:Connect(function(i, gameProcessedEvent)
     if i.KeyCode == Enum.KeyCode.W or i.KeyCode == Enum.KeyCode.A or i.KeyCode == Enum.KeyCode.S or i.KeyCode == Enum.KeyCode.D or i.KeyCode == Enum.KeyCode.Space then
     return end
     if gameProcessedEvent == false then
+        if i.KeyCode == Enum.KeyCode.LeftControl then
+        if currentleg == true then
+        currentleg = false
+        else
+            currentleg = true
+        end
+        end
         if i.KeyCode == Enum.KeyCode.PageUp or i.KeyCode == Enum.KeyCode.PageDown then
         if i.KeyCode == Enum.KeyCode.PageDown then
         reach = reach - 1
@@ -45,16 +54,31 @@ UserInputService.InputBegan:Connect(function(i, gameProcessedEvent)
         end
         else
         refreshballs(false)
+        if currentleg == true then
     for i,v in pairs(player.Character["Right Leg"]:GetDescendants()) do
 if v.Name == "TouchInterest" and v.Parent then
+    task.wait()
 touchint = v
+end
+end
+else
+    for i,v in pairs(player.Character["Left Leg"]:GetDescendants()) do
+if v.Name == "TouchInterest" and v.Parent then
+    task.wait()
+Ltouchint = v
+end
 end
     end
     for i,e in pairs(balls) do
 if (e.Position - player.Character["Right Leg"].Position).magnitude <= reach then
-    task.wait(math.random(0.2,0.5))
+        task.wait(math.random(0.2,0.5))
+    if currentleg == true then
 firetouchinterest(e,touchint.Parent,0)
 firetouchinterest(e,touchint.Parent,1)
+else
+firetouchinterest(e,Ltouchint.Parent,0)
+firetouchinterest(e,Ltouchint.Parent,1)
+end
 break
 end
 end
