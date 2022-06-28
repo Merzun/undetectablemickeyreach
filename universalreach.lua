@@ -3,10 +3,11 @@ local CoreGui = game:GetService("StarterGui")
 local player = game:GetService("Players").LocalPlayer
 local balls = {}
 local lastrefreshtime = os.time()
+local touchint = nil
 local reach = 20
 function refreshballs(force)
     if force == false then
-    if lastrefreshtime + 2 > os.time() then return end
+    if lastrefreshtime + 1.5 > os.time() then return end
     end
         lastrefreshtime = os.time()
     table.clear(balls)
@@ -26,8 +27,8 @@ UserInputService.InputBegan:Connect(function(i, gameProcessedEvent)
     if i.KeyCode == Enum.KeyCode.W or i.KeyCode == Enum.KeyCode.A or i.KeyCode == Enum.KeyCode.S or i.KeyCode == Enum.KeyCode.D or i.KeyCode == Enum.KeyCode.Space then
     return end
     if gameProcessedEvent == false then
-        if i.KeyCode == Enum.KeyCode.Comma or i.KeyCode == Enum.KeyCode.Period then
-        if i.KeyCode == Enum.KeyCode.Comma then
+        if i.KeyCode == Enum.KeyCode.PageUp or i.KeyCode == Enum.KeyCode.PageDown then
+        if i.KeyCode == Enum.KeyCode.PageDown then
         reach = reach - 1
         CoreGui:SetCore("SendNotification", {
 	Title = "ReachScript";
@@ -46,13 +47,15 @@ UserInputService.InputBegan:Connect(function(i, gameProcessedEvent)
         refreshballs(false)
     for i,v in pairs(player.Character["Right Leg"]:GetDescendants()) do
 if v.Name == "TouchInterest" and v.Parent then
-    for i,e in pairs(balls) do
-if (e.Position - player.Character["Right Leg"].Position).magnitude < reach then
-firetouchinterest(e,v.Parent,0)
-firetouchinterest(e,v.Parent,1)
-break
+touchint = v
 end
     end
+    for i,e in pairs(balls) do
+if (e.Position - player.Character["Right Leg"].Position).magnitude <= reach then
+    task.wait(math.random(0.2,0.5))
+firetouchinterest(e,touchint.Parent,0)
+firetouchinterest(e,touchint.Parent,1)
+break
 end
 end
         end
